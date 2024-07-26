@@ -51,7 +51,7 @@ abstract class EdfaPgBaseAdapter<Service> {
         val okHttpClientBuilder = OkHttpClient.Builder()
         if (BuildConfig.DEBUG || ENABLE_DEBUG) {
             val httpLoggingInterceptor = HttpLoggingInterceptor()
-            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC)
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
             okHttpClientBuilder.addInterceptor(httpLoggingInterceptor)
         }
         configureOkHttpClient(okHttpClientBuilder)

@@ -3,7 +3,9 @@ package com.edfapg.sdk.views.edfacardpay
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.fragment.app.Fragment
+import com.edfapg.sdk.model.request.card.EdfaPgCard
 import com.edfapg.sdk.model.request.order.EdfaPgSaleOrder
 import com.edfapg.sdk.model.request.payer.EdfaPgPayer
 import com.edfapg.sdk.model.response.sale.EdfaPgSaleResponse
@@ -16,10 +18,12 @@ class EdfaCardPay {
 
     var _order:EdfaPgSaleOrder? = null
     var _payer:EdfaPgPayer? = null
+    var _card:EdfaPgCard? = null
     var _onTransactionFailure:((EdfaPgSaleResponse?, Any?) -> Unit)? = null
     var _onTransactionSuccess:((EdfaPgSaleResponse?, Any?) -> Unit)? = null
     var _onError:((Any) -> Unit)? = null
     var _onPresent:((Activity) -> Unit)? = null
+    var edfaCardPayTransaction: EdfaCardPayTransaction? = null
 
     fun setOrder(order:EdfaPgSaleOrder) : EdfaCardPay{
         _order = order
@@ -28,6 +32,11 @@ class EdfaCardPay {
 
     fun setPayer(payer:EdfaPgPayer) : EdfaCardPay{
         _payer = payer
+        return this
+    }
+
+    fun setCard(card:EdfaPgCard) : EdfaCardPay{
+        _card = card
         return this
     }
 
@@ -42,10 +51,19 @@ class EdfaCardPay {
     }
 
     fun initialize(context:Context, onError:(Any) -> Unit, onPresent:(Activity) -> Unit){
-        _onError = onError
-        _onPresent = onPresent
-
-        context.startActivity(intent(context, onError, onPresent))
+        if(_card == null) {
+            _onError = onError
+            _onPresent = onPresent
+            context.startActivity(intent(context, onError, onPresent))
+        }else{
+            edfaCardPayTransaction = EdfaCardPayTransaction(context)
+            edfaCardPayTransaction!!.doSaleTransaction(_payer, _order, _card ) { cardTransactionData ->
+                Log.e("cardTransactionData",cardTransactionData.toString());
+                val intent =
+                    EdfaPgSaleWebRedirectActivity.intent(context, cardTransactionData)
+//                sale3dsRedirectLauncher.launch(intent)
+            }
+        }
     }
 
     fun intent(context:Context, onError:(Any) -> Unit, onPresent:(Activity) -> Unit) : Intent {

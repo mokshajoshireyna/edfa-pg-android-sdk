@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.edfapg.sdk.core.EdfaPgSdk
 import com.edfapg.sdk.databinding.ActivityEdfaPayHomeBinding
+import com.edfapg.sdk.model.request.card.EdfaPgCard
 import com.edfapg.sdk.model.request.order.EdfaPgSaleOrder
 import com.edfapg.sdk.model.request.payer.EdfaPgPayer
 import com.edfapg.sdk.views.edfacardpay.EdfaCardPay
@@ -18,31 +19,37 @@ class EdfaPgHomeActivity_ : AppCompatActivity() {
         binding = ActivityEdfaPayHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        EdfaPgSdk.enableDebug()
 
         binding.btnSaleWithCardUi.setOnClickListener {
             EdfaPgSdk.init(
                 this,
-                "b5abdab4-5c46-11ed-a7be-8e03e789c25f",
-                "cdb715a1b482b2af375785d70e8005cd",
-                "https://api.expresspay.sa/post"
+                "f6534bd9-d4e8-431f-93d2-592b1b112e9b",
+                "59338f04447a23f15f749a4bd3bb0e9f",
+                "https://api.edfapay.com/payment/post"
             )
             payWithCard()
         }
     }
 
-    fun payWithCard(){
+    fun payWithCard() {
 
         val order = EdfaPgSaleOrder(
             id = UUID.randomUUID().toString(),
-            amount = 0.10,
+            amount = 1.00,
             currency = "SAR",
             description = "Test Order"
         )
 
         val payer = EdfaPgPayer(
-            "Zohaib","Kambrani",
-            "Riyadh","SA", "Riyadh","123123",
-            "a2zzuhaib@gmail.com","966500409598",
+            "Zohaib",
+            "Kambrani",
+            "Riyadh",
+            "SA",
+            "Riyadh",
+            "123123",
+            "a2zzuhaib@gmail.com",
+            "966500409598",
             "171.100.100.123"
         )
 

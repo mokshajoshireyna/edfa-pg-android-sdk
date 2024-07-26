@@ -14,19 +14,19 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.edfapg.sdk.R
 import com.edfapg.sdk.databinding.FragmentEdfaCardPayBinding
+import com.edfapg.sdk.model.request.card.EdfaPgCard
 import com.edfapg.sdk.model.response.base.error.EdfaPgError
 import com.edfapg.sdk.model.response.gettransactiondetails.EdfaPgGetTransactionDetailsSuccess
-import com.edfapg.sdk.model.response.sale.EdfaPgSaleResponse
 import com.edfapg.sdk.toolbox.serializable
 import com.edfapg.sdk.views.edfacardpay.creditcardview.models.CardInput
+import com.edfapg.sdk.views.edfacardpay.creditcardview.models.CreditCard
 import com.edfapg.sdk.views.edfacardpay.creditcardview.util.NumberFormat
 
 internal class EdfaCardPayFragment : Fragment(), TextWatcher, OnFocusChangeListener {
     lateinit var binding: FragmentEdfaCardPayBinding
     var currentView: View? = null
-
     var xpressCardPay: EdfaCardPay? = null
-    var saleResponse: EdfaPgSaleResponse? = null
+    var edfaCardPayTransaction: EdfaCardPayTransaction? = null
 
     val sale3dsRedirectLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -34,7 +34,8 @@ internal class EdfaCardPayFragment : Fragment(), TextWatcher, OnFocusChangeListe
         if (it.resultCode == Activity.RESULT_OK) {
             val result = it.data?.serializable<EdfaPgGetTransactionDetailsSuccess>("result")
             val error = it.data?.serializable<EdfaPgError>("error")
-            transactionCompleted(result, error)
+            requireActivity().finish()
+            edfaCardPayTransaction!!.transactionCompleted(result, error)
         }
     }
 
@@ -63,7 +64,6 @@ internal class EdfaCardPayFragment : Fragment(), TextWatcher, OnFocusChangeListe
         makeInputsFocusable()
         bindCardViewWithInputs()
 
-
         xpressCardPay?._order?.let {
             with(binding) {
                 lblAmount.text = it.formattedAmount()
@@ -72,7 +72,22 @@ internal class EdfaCardPayFragment : Fragment(), TextWatcher, OnFocusChangeListe
         }
 
         binding.btnPay.setOnClickListener {
-            doSaleTransaction(binding.card.cardData)
+            val cardDetail : CreditCard = binding.card.cardData
+            val month = cardDetail.expiryMonth()
+            val year = cardDetail.expiryYear()
+            if (month != null || year != null) {
+                val card = EdfaPgCard(cardDetail.unformattedNumber, month!!, year!!, cardDetail.cvv)
+                edfaCardPayTransaction = EdfaCardPayTransaction(requireContext())
+                edfaCardPayTransaction!!.doSaleTransaction(
+                    xpressCardPay?._payer,
+                    xpressCardPay?._order,
+                    card
+                ) { cardTransactionData ->
+                    val intent =
+                        EdfaPgSaleWebRedirectActivity.intent(requireContext(), cardTransactionData)
+                    sale3dsRedirectLauncher.launch(intent)
+                }
+            }
         }
     }
 

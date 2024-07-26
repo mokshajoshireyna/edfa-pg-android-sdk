@@ -6,6 +6,7 @@ package com.edfapg.sdk.views.edfacardpay
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.http.SslError
@@ -166,7 +167,7 @@ class EdfaPgSaleWebRedirectActivity : AppCompatActivity(R.layout.activity_edfapa
         private const val DATA = "DATA"
 
         fun intent(
-            context: Activity,
+            context: Context,
             cardTransactionData: CardTransactionData,
         ) : Intent{
             return Intent(context, EdfaPgSaleWebRedirectActivity::class.java).apply {
