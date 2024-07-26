@@ -53,6 +53,12 @@
             android:layout_height="wrap_content"
             android:text="SALE_WITH_CARD_UI" />
 
+        <Button
+            android:id="@+id/btn_sale_without_card_ui"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SALE_WITHOUT_CARD_UI" />
+
     </LinearLayout>
 
 </ScrollView>
