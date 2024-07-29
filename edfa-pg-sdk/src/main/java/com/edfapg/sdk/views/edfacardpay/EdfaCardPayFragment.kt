@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
@@ -51,6 +52,32 @@ internal class EdfaCardPayFragment : Fragment(), TextWatcher, OnFocusChangeListe
     ): View {
         binding = FragmentEdfaCardPayBinding.inflate(inflater, container, false)
 
+        if (arguments != null) {
+            val cardNumber: String? = arguments?.getString("cardNumber")
+            val expireMonth: Int? = arguments?.getInt("expireMonth", 0)
+            val expireYear: Int? = arguments?.getInt("expireYear", 0)
+            val cvv: String? = arguments?.getString("cvv")
+
+            if (cardNumber != null && expireMonth != null && expireYear != null && cvv != null) {
+
+                if (arguments?.getBoolean("withUI") == false) {
+                    edfaCardPayTransaction = EdfaCardPayTransaction(requireContext())
+                    edfaCardPayTransaction!!.doSaleTransaction(
+                        xpressCardPay?._payer,
+                        xpressCardPay?._order,
+                        EdfaPgCard(number = cardNumber, expireMonth = expireMonth, expireYear = expireYear, cvv = cvv)
+                    ) { cardTransactionData ->
+                        val intent =
+                            EdfaPgSaleWebRedirectActivity.intent(
+                                requireContext(),
+                                cardTransactionData
+                            )
+                        sale3dsRedirectLauncher.launch(intent)
+                    }
+                }
+            }
+        }
+
         binding.txtName.hint = getString(R.string.card_holder)
         binding.txtCVV.hint = getString(R.string.cvv)
         binding.txtExpiry.hint = getString(R.string.expiry)
@@ -72,7 +99,7 @@ internal class EdfaCardPayFragment : Fragment(), TextWatcher, OnFocusChangeListe
         }
 
         binding.btnPay.setOnClickListener {
-            val cardDetail : CreditCard = binding.card.cardData
+            val cardDetail: CreditCard = binding.card.cardData
             val month = cardDetail.expiryMonth()
             val year = cardDetail.expiryYear()
             if (month != null || year != null) {
@@ -143,7 +170,9 @@ internal class EdfaCardPayFragment : Fragment(), TextWatcher, OnFocusChangeListe
             binding.card.cardData.isExpiryValid()
                     && binding.card.cardData.isNumberValid()
 //                    && binding.card.cardData.brand != Brand.GENERIC
-                    && (binding.card.cardData.number.replace(" ", "").trim().length == 15 || binding.card.cardData.number.replace(" ", "").trim().length == 16)
+                    && (binding.card.cardData.number.replace(" ", "")
+                .trim().length == 15 || binding.card.cardData.number.replace(" ", "")
+                .trim().length == 16)
                     && binding.card.cardData.isCvvValid()
                     && binding.card.holder.length > 3
 

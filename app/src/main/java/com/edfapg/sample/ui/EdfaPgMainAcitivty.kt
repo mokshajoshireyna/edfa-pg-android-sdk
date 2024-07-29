@@ -82,7 +82,7 @@ class EdfaPgMainAcitivty : AppCompatActivity() {
         val edfaCardPay = EdfaCardPay()
             .setOrder(order)
             .setPayer(payer)
-            .setCard(EdfaPgCard("5123400000000008",1,2039,"100"))
+            .setCard(EdfaPgCard("5123450000000008",1,2039,"100"))
             .onTransactionFailure { res, data ->
 //                print("$res $data")
                 Log.e("Failure Result", res.toString())
@@ -107,33 +107,6 @@ class EdfaPgMainAcitivty : AppCompatActivity() {
 
             }
         )
-
-
-        /*
-        * To get intent of card screen activity to present in your own choice (ready to use)
-        * */
-//        startActivity(edfaCardPay.intent(
-//            this,
-//            onError = {
-//
-//            },
-//            onPresent = {
-//
-//            })
-//        )
-
-
-        /*
-        * To get fragment of card screen to present in your own choice (ready to use)
-        * */
-//        edfaCardPay.fragment(
-//            onError = {
-//
-//            },
-//            onPresent = {
-//
-//            }
-//        )
     }
 
     fun payWithCardUI(){
@@ -184,32 +157,5 @@ class EdfaPgMainAcitivty : AppCompatActivity() {
 
             }
         )
-
-
-        /*
-        * To get intent of card screen activity to present in your own choice (ready to use)
-        * */
-//        startActivity(edfaCardPay.intent(
-//            this,
-//            onError = {
-//
-//            },
-//            onPresent = {
-//
-//            })
-//        )
-
-
-        /*
-        * To get fragment of card screen to present in your own choice (ready to use)
-        * */
-//        edfaCardPay.fragment(
-//            onError = {
-//
-//            },
-//            onPresent = {
-//
-//            }
-//        )
     }
 }

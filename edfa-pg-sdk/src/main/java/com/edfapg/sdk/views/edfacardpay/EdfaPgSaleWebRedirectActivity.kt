@@ -27,8 +27,8 @@ import java.net.URLEncoder
 class EdfaPgSaleWebRedirectActivity : AppCompatActivity(R.layout.activity_edfapay_web) {
 
     private lateinit var binding: ActivityEdfapayWebBinding
-    private var transactionData:CardTransactionData? = null
-    private var processCompleted:Boolean = false
+    private var transactionData: CardTransactionData? = null
+    private var processCompleted: Boolean = false
 
     @SuppressLint("SetJavaScriptEnabled")
     @Suppress("DEPRECATION")
@@ -54,7 +54,10 @@ class EdfaPgSaleWebRedirectActivity : AppCompatActivity(R.layout.activity_edfapa
                     view: WebView?,
                     request: WebResourceRequest?,
                 ): Boolean {
-                    Log.d("xpWebRedirect", ">> >> Redirect URL: ${request?.url?.toString().orEmpty()}")
+                    Log.d(
+                        "xpWebRedirect",
+                        ">> >> Redirect URL: ${request?.url?.toString().orEmpty()}"
+                    )
                     if (handleTermUrl3ds(request?.url?.toString().orEmpty())) {
                         return false
                     }
@@ -147,16 +150,16 @@ class EdfaPgSaleWebRedirectActivity : AppCompatActivity(R.layout.activity_edfapa
             settings.javaScriptEnabled = true
             transactionData?.response?.let {
                 val postData = "body=" + URLEncoder.encode(it.redirectParams.body, "UTF-8")
-                if(it.redirectMethod == "POST"){
+                if (it.redirectMethod == "POST") {
                     postUrl(it.redirectUrl, postData.toByteArray())
-                }else{
+                } else {
                     loadUrl("${it.redirectUrl}?$postData")
                 }
             }
         }
     }
 
-    fun operationCompleted(result: EdfaPgGetTransactionDetailsSuccess?, error:EdfaPgError?){
+    fun operationCompleted(result: EdfaPgGetTransactionDetailsSuccess?, error: EdfaPgError?) {
         val intent = Intent().putExtra("result", result).putExtra("error", error)
         setResult(Activity.RESULT_OK, intent)
         finish()
@@ -169,7 +172,7 @@ class EdfaPgSaleWebRedirectActivity : AppCompatActivity(R.layout.activity_edfapa
         fun intent(
             context: Context,
             cardTransactionData: CardTransactionData,
-        ) : Intent{
+        ): Intent {
             return Intent(context, EdfaPgSaleWebRedirectActivity::class.java).apply {
                 putExtra(DATA, cardTransactionData)
             }
