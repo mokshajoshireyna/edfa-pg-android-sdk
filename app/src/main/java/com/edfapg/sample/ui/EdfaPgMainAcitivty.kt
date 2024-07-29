@@ -6,6 +6,7 @@ package com.edfapg.sample.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.edfapg.sample.databinding.ActivityMainBinding
@@ -67,8 +68,8 @@ class EdfaPgMainAcitivty : AppCompatActivity() {
         )
 
         val payer = EdfaPgPayer(
-            "John",
-            "Cena",
+            "Zohaib",
+            "Kambrani",
             "Riyadh",
             "SA",
             "Riyadh",
@@ -83,10 +84,14 @@ class EdfaPgMainAcitivty : AppCompatActivity() {
             .setPayer(payer)
             .setCard(EdfaPgCard("5123400000000008",1,2039,"100"))
             .onTransactionFailure { res, data ->
-                print("$res $data")
+//                print("$res $data")
+                Log.e("Failure Result", res.toString())
+                Log.e("Failure Data", data.toString())
                 Toast.makeText(this, "Transaction Failure", Toast.LENGTH_LONG).show()
             }.onTransactionSuccess { res, data ->
-                print("$res $data")
+//                print("$res $data")
+                Log.e("Success Result", res.toString())
+                Log.e("Success Data", data.toString())
                 Toast.makeText(this, "Transaction Success", Toast.LENGTH_LONG).show()
             }
 
@@ -141,8 +146,8 @@ class EdfaPgMainAcitivty : AppCompatActivity() {
         )
 
         val payer = EdfaPgPayer(
-            "John",
-            "Cena",
+            "Zohaib",
+            "Kambrani",
             "Riyadh",
             "SA",
             "Riyadh",
@@ -156,10 +161,14 @@ class EdfaPgMainAcitivty : AppCompatActivity() {
             .setOrder(order)
             .setPayer(payer)
             .onTransactionFailure { res, data ->
-                print("$res $data")
+//                print("$res $data")
+                Log.e("Failure Result", res.toString())
+                Log.e("Failure Data", data.toString())
                 Toast.makeText(this, "Transaction Failure", Toast.LENGTH_LONG).show()
             }.onTransactionSuccess { res, data ->
-                print("$res $data")
+//                print("$res $data")
+                Log.e("Success Result", res.toString())
+                Log.e("Success Data", data.toString())
                 Toast.makeText(this, "Transaction Success", Toast.LENGTH_LONG).show()
             }
 
