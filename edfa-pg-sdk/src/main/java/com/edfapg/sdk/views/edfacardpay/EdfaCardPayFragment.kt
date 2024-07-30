@@ -8,10 +8,15 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.View.OnFocusChangeListener
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
+import android.widget.ProgressBar
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import com.edfapg.sdk.R
 import com.edfapg.sdk.databinding.FragmentEdfaCardPayBinding
@@ -52,36 +57,11 @@ internal class EdfaCardPayFragment : Fragment(), TextWatcher, OnFocusChangeListe
     ): View {
         binding = FragmentEdfaCardPayBinding.inflate(inflater, container, false)
 
-        if (arguments != null) {
-            val cardNumber: String? = arguments?.getString("cardNumber")
-            val expireMonth: Int? = arguments?.getInt("expireMonth", 0)
-            val expireYear: Int? = arguments?.getInt("expireYear", 0)
-            val cvv: String? = arguments?.getString("cvv")
-
-            if (cardNumber != null && expireMonth != null && expireYear != null && cvv != null) {
-
-                if (arguments?.getBoolean("withUI") == false) {
-                    edfaCardPayTransaction = EdfaCardPayTransaction(requireContext())
-                    edfaCardPayTransaction!!.doSaleTransaction(
-                        xpressCardPay?._payer,
-                        xpressCardPay?._order,
-                        EdfaPgCard(number = cardNumber, expireMonth = expireMonth, expireYear = expireYear, cvv = cvv)
-                    ) { cardTransactionData ->
-                        val intent =
-                            EdfaPgSaleWebRedirectActivity.intent(
-                                requireContext(),
-                                cardTransactionData
-                            )
-                        sale3dsRedirectLauncher.launch(intent)
-                    }
-                }
-            }
-        }
-
         binding.txtName.hint = getString(R.string.card_holder)
         binding.txtCVV.hint = getString(R.string.cvv)
         binding.txtExpiry.hint = getString(R.string.expiry)
         binding.txtNumber.hint = getString(R.string.card_number)
+
         return binding.root
     }
 
@@ -112,6 +92,40 @@ internal class EdfaCardPayFragment : Fragment(), TextWatcher, OnFocusChangeListe
                 ) { cardTransactionData ->
                     val intent =
                         EdfaPgSaleWebRedirectActivity.intent(requireContext(), cardTransactionData)
+                    sale3dsRedirectLauncher.launch(intent)
+                }
+            }
+        }
+
+        if (arguments != null) {
+            val cardNumber: String? = arguments?.getString("cardNumber")
+            val expireMonth: Int? = arguments?.getInt("expireMonth", 0)
+            val expireYear: Int? = arguments?.getInt("expireYear", 0)
+            val cvv: String? = arguments?.getString("cvv")
+
+            if (cardNumber != null && expireMonth != null && expireYear != null && cvv != null) {
+
+//                binding.progressBar.visibility = VISIBLE
+//                binding.nestedScrollView.visibility = GONE
+//                binding.footer.visibility = GONE
+
+
+                edfaCardPayTransaction = EdfaCardPayTransaction(requireContext())
+                edfaCardPayTransaction!!.doSaleTransaction(
+                    xpressCardPay?._payer,
+                    xpressCardPay?._order,
+                    EdfaPgCard(
+                        number = cardNumber,
+                        expireMonth = expireMonth,
+                        expireYear = expireYear,
+                        cvv = cvv
+                    )
+                ) { cardTransactionData ->
+                    val intent =
+                        EdfaPgSaleWebRedirectActivity.intent(
+                            requireContext(),
+                            cardTransactionData
+                        )
                     sale3dsRedirectLauncher.launch(intent)
                 }
             }
