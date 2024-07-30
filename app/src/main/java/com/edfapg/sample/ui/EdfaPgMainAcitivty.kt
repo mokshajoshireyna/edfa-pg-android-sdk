@@ -16,7 +16,7 @@ import com.edfapg.sdk.model.request.payer.*
 import com.edfapg.sdk.views.edfacardpay.*
 import java.util.UUID
 
-class EdfaPgMainAcitivty : AppCompatActivity() {
+class EdfaPgMainAcitivty : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
 

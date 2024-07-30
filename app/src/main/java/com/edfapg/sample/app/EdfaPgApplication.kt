@@ -7,8 +7,10 @@ package com.edfapg.sample.app
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.webkit.WebView
+import com.edfapg.sample.ui.BaseActivity
 import com.edfapg.sdk.core.EdfaPgSdk
 import io.kimo.lib.faker.Faker
+import java.util.Locale
 
 
 class EdfaPgApplication : Application() {
@@ -21,13 +23,15 @@ class EdfaPgApplication : Application() {
 
         EdfaPgSdk.init(
             this,
-            "f6534bd9-d4e8-431f-93d2-592b1b112e9b",
-            "59338f04447a23f15f749a4bd3bb0e9f",
-            "https://api.edfapay.com/payment/post"
+            MERCHANT_KEY,
+            MERCHANT_PASSWORD,
+            PAYMENT_URL,
         )
 
         if (0 != applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) {
             WebView.setWebContentsDebuggingEnabled(true)
         }
+
+        BaseActivity.dLocale = Locale("ar-SA")
     }
 }
