@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -106,8 +105,9 @@ internal class EdfaCardPayFragment : Fragment(), TextWatcher, OnFocusChangeListe
             if (cardNumber != null && expireMonth != null && expireYear != null && cvv != null) {
 
 //                binding.progressBar.visibility = VISIBLE
-//                binding.nestedScrollView.visibility = GONE
-//                binding.footer.visibility = GONE
+                binding.tvWaitingMsg.visibility = VISIBLE
+                binding.nestedScrollView.visibility = GONE
+                binding.footer.visibility = GONE
 
 
                 edfaCardPayTransaction = EdfaCardPayTransaction(requireContext())

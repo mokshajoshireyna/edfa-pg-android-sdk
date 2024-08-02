@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:padding="20dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="20dp">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
@@ -133,7 +132,6 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:paddingHorizontal="5dp"
                         android:id="@+id/txtNumber"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -142,6 +140,7 @@
                         android:hint="@string/card_number"
                         android:inputType="number"
                         android:maxLength="19"
+                        android:paddingHorizontal="5dp"
                         android:textSize="13sp" />
 
                     <View
@@ -190,67 +189,70 @@
 
 
             <ImageView
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_gravity="center"
                 android:layout_width="90dp"
                 android:layout_height="35dp"
-                android:scaleType="fitCenter"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
                 android:adjustViewBounds="true"
-                android:background="@drawable/pci_dss_compliant" />
+                android:background="@drawable/pci_dss_compliant"
+                android:scaleType="fitCenter" />
 
 
             <LinearLayout
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:adjustViewBounds="true"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/logo_mada" />
-                <Space
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content"/>
-
-                <ImageView
                     android:adjustViewBounds="true"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/logo_visa" />
+                    android:background="@drawable/logo_mada"
+                    android:scaleType="centerInside" />
+
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/logo_mastercard" />
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/logo_visa"
+                    android:scaleType="centerInside" />
+
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:scaleType="centerInside"
-                    android:background="@drawable/logo_amex" />
+                    android:background="@drawable/logo_mastercard"
+                    android:scaleType="centerInside" />
 
-<!--                <Space-->
-<!--                    android:layout_width="10dp"-->
-<!--                    android:layout_height="wrap_content"/>-->
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content" />
 
-<!--                <ImageView-->
-<!--                    android:layout_width="40dp"-->
-<!--                    android:layout_height="40dp"-->
-<!--                    android:scaleType="centerInside"-->
-<!--                    android:background="@drawable/logo_discover" />-->
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/logo_amex"
+                    android:scaleType="centerInside" />
+
+                <!--                <Space-->
+                <!--                    android:layout_width="10dp"-->
+                <!--                    android:layout_height="wrap_content"/>-->
+
+                <!--                <ImageView-->
+                <!--                    android:layout_width="40dp"-->
+                <!--                    android:layout_height="40dp"-->
+                <!--                    android:scaleType="centerInside"-->
+                <!--                    android:background="@drawable/logo_discover" />-->
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -266,10 +268,10 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:enabled="false"
             android:id="@+id/btnPay"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:enabled="false"
             android:text="@string/pay" />
 
         <Space
@@ -288,9 +290,10 @@
                 android:layout_marginBottom="5dp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:textStyle="bold"
-                android:textSize="10sp" android:textColor="#000"
-                android:text="Powered By" />
+                android:text="Powered By"
+                android:textColor="#000"
+                android:textSize="10sp"
+                android:textStyle="bold" />
 
             <ImageView
                 android:layout_width="90dp"
@@ -299,15 +302,27 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ProgressBar
+    <!--    <ProgressBar-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:id="@+id/progressBar"-->
+    <!--        android:gravity="center"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--        app:layout_constraintRight_toRightOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        android:visibility="gone"/>-->
+
+    <TextView
+        android:id="@+id/tvWaitingMsg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/waiting_msg"
         android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

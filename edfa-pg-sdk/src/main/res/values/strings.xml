@@ -12,5 +12,6 @@
     <string name="expiry">EXPIRY</string>
     <string name="cvv">CVV</string>
     <string name="sar">SAR</string>
+    <string name="waiting_msg">"Please wait while processing your request…"</string>
 
 </resources>

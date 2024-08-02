@@ -13,4 +13,5 @@
     <string name="expiry">تاريخ الانتهاء</string>
     <string name="cvv">الرمز</string>
     <string name="sar">SAR</string>
+    <string name="waiting_msg">"الرجاء الإنتظار أثناء معالجة طلبك…"</string>
 </resources>
