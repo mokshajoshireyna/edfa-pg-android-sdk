@@ -114,8 +114,6 @@ class EdfaCardPayTransaction(var context: Context) {
         data: EdfaPgGetTransactionDetailsSuccess?, error: EdfaPgError?
     ) {
 
-//        requireActivity().finish()
-
         if (error != null)
             EdfaCardPay.shared()!!._onTransactionFailure?.let { failure ->
                 failure(
